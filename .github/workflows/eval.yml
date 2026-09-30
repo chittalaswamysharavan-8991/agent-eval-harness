@@ -1,0 +1,58 @@
+name: Agent eval
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+    inputs:
+      live:
+        description: 'Run the live model using AGENT_API_KEY (may incur provider charges)'
+        required: false
+        type: boolean
+        default: false
+
+jobs:
+  replay:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Scorer tests
+        run: python -m unittest discover -s tests -v
+      - name: Evaluate pinned responses and enforce baseline
+        run: python -m agent_eval.runner --mode replay --report artifacts/replay-report.json
+      - name: Upload replay report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: replay-eval-report
+          path: artifacts/replay-report.json
+          if-no-files-found: ignore
+
+  live:
+    if: github.event_name == 'workflow_dispatch' && inputs.live
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Evaluate live agent and enforce baseline
+        env:
+          AGENT_API_KEY: ${{ secrets.AGENT_API_KEY }}
+          AGENT_MODEL: ${{ vars.AGENT_MODEL }}
+        run: |
+          test -n "$AGENT_API_KEY" || { echo 'AGENT_API_KEY secret is required'; exit 1; }
+          python -m agent_eval.runner --mode live --report artifacts/live-report.json
+      - name: Upload live report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: live-eval-report
+          path: artifacts/live-report.json
+          if-no-files-found: ignore

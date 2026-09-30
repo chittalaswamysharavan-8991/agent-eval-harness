@@ -1,0 +1,7 @@
+{
+  "returns": "Returns policy. Returns are accepted within 30 days of delivery. The item must be unused. Refunds go to the original payment method within 7 business days after inspection. Final-sale items cannot be returned. A receipt is required.",
+  "shipping": "Shipping policy. Standard shipping takes 5 business days. Express shipping takes 2 business days. Orders over $75 qualify for free standard shipping. Shipping is available only within India. Tracking is emailed after dispatch.",
+  "support": "Support guide. Support is available Monday through Friday, 9 AM to 6 PM IST. Contact support at help@example.test. Password resets expire after 20 minutes. Escalations receive a reply within 1 business day. Phone support is not offered.",
+  "privacy": "Privacy note. Account data is retained for 90 days after account closure. Users can export their data as JSON. Analytics cookies are optional. Data deletion requests go to privacy@example.test. The service does not sell customer data.",
+  "billing": "Billing FAQ. Invoices are issued on the first day of each month. Payment is due within 14 days. Accepted payment methods are UPI and credit card. A late fee of 2% applies after the due date. Annual plans receive a 10% discount."
+}

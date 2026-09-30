@@ -59,3 +59,11 @@ python -m agent_eval.runner --mode endpoint --report artifacts/make-report.json
 - `fixtures/baseline.json`: minimum behavior/grounding rates and maximum hallucination flag rate.
 
 The exact-string checks are intentionally transparent; paraphrases may fail. For a real client, add representative private cases, human-reviewed labels, stronger claim-level evidence checks, and a separate retrieval benchmark. Keep customer data and Make secrets out of this public repository.
+
+## Verified public results — 30 September 2026
+
+- [Baseline GitHub Actions run](https://github.com/chittalaswamysharavan-8991/agent-eval-harness/actions/runs/36703520804), commit `651dbeb21cf43fbe0f3129f74ec0e55c47ca9dfb`: six scorer tests passed and 40/40 replay cases passed; behavior accuracy 100%, grounding 100%, hallucination flags 0%.
+- [Intentional regression proof](https://github.com/chittalaswamysharavan-8991/agent-eval-harness/actions/runs/36703643168), commit `a6e0da682a0e0ea4c7460f411e305fd8d8211450`: changing only the first response to 365 days produced 39/40 and exit code 1. Its failed status is the expected proof that the gate rejects a regression.
+- The demonstration is isolated on `proof/intentional-regression`; do not merge that deliberately wrong fixture into `main`.
+- Both runs uploaded `replay-eval-report`, including the failed run. Actions artifacts expire according to repository retention; the commands above reproduce the reports.
+- These are deterministic replay/scorer results. Live LLM calls, retrieval quality, and Make.com execution remain untested; no model API or Make operations were used for this publication.
